@@ -4,5 +4,5 @@ For 18th THEDC
 ## contributors
 - ZeroWeight
 - mcflondinu
-- DavidYQy
+- DavidYQY
 - Archer
