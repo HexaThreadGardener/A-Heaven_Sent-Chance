@@ -1,0 +1,84 @@
+Configuration	BetaRust
+STM32CubeMX 	4.16.1
+Date	10/06/2016
+MCU	STM32F103RCTx
+
+
+
+PERIPHERALS	MODES	FUNCTIONS	PINS
+I2C1	I2C	I2C1_SCL	PB8
+I2C1	I2C	I2C1_SDA	PB9
+I2C2	I2C	I2C2_SCL	PB10
+I2C2	I2C	I2C2_SDA	PB11
+SYS	Serial Wire	SYS_JTCK-SWCLK	PA14
+SYS	Serial Wire	SYS_JTMS-SWDIO	PA13
+SYS	SysTick	SYS_VS_Systick	VP_SYS_VS_Systick
+TIM1	Internal Clock	TIM1_VS_ClockSourceINT	VP_TIM1_VS_ClockSourceINT
+TIM2	Internal Clock	TIM2_VS_ClockSourceINT	VP_TIM2_VS_ClockSourceINT
+TIM3	Internal Clock	TIM3_VS_ClockSourceINT	VP_TIM3_VS_ClockSourceINT
+TIM4	Internal Clock	TIM4_VS_ClockSourceINT	VP_TIM4_VS_ClockSourceINT
+TIM4	PWM Generation CH1	TIM4_CH1	PB6
+TIM4	PWM Generation CH2	TIM4_CH2	PB7
+TIM5	Internal Clock	TIM5_VS_ClockSourceINT	VP_TIM5_VS_ClockSourceINT
+TIM8	Internal Clock	TIM8_VS_ClockSourceINT	VP_TIM8_VS_ClockSourceINT
+USART1	Asynchronous	USART1_RX	PA10
+USART1	Asynchronous	USART1_TX	PA9
+USART3	Asynchronous	USART3_RX	PC11
+USART3	Asynchronous	USART3_TX	PC10
+
+
+
+Pin Nb	PINs	FUNCTIONs	LABELs
+8	PC0	GPIO_EXTI0	FC_03_0
+9	PC1	GPIO_EXTI1	FC_03_1
+10	PC2	GPIO_EXTI2	FC_03_2
+11	PC3	GPIO_EXTI3	FC_03_3
+20	PA4	GPIO_Input	FC_03_4
+21	PA5	GPIO_Input	FC_03_5
+22	PA6	GPIO_Input	FC_03_6
+23	PA7	GPIO_Input	FC_03_7
+29	PB10	I2C2_SCL	
+30	PB11	I2C2_SDA	
+42	PA9	USART1_TX	
+43	PA10	USART1_RX	
+46	PA13	SYS_JTMS-SWDIO	
+49	PA14	SYS_JTCK-SWCLK	
+51	PC10	USART3_TX	
+52	PC11	USART3_RX	
+53	PC12	GPIO_Output	LED
+54	PD2	GPIO_Output	L1
+55	PB3	GPIO_Output	L0
+56	PB4	GPIO_Output	R1
+57	PB5	GPIO_Output	R0
+58	PB6	TIM4_CH1	PWM_L
+59	PB7	TIM4_CH2	PWM_R
+61	PB8	I2C1_SCL	
+62	PB9	I2C1_SDA	
+
+
+
+SOFTWARE PROJECT
+
+Project Settings : 
+Project Name : BetaRust
+Project Folder : C:\Users\Zero Weight\Documents\A-Heaven_Sent-Chance\BetaRust
+Toolchain / IDE : MDK-ARM V5
+Firmware Package Name and Version : STM32Cube FW_F1 V1.4.0
+
+
+Code Generation Settings : 
+STM32Cube Firmware Library Package : Copy all used libraries into the project folder
+Generate peripheral initialization as a pair of '.c/.h' files per peripherals : Yes
+Backup previously generated files when re-generating : Yes
+Delete previously generated files when not re-generated : Yes
+Set all free pins as analog (to optimize the power consumption) : No
+
+
+Toolchains Settings : 
+Compiler Optimizations : Balanced Size/Speed
+
+
+
+
+
+
