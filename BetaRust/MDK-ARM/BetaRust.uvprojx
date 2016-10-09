@@ -456,6 +456,11 @@
               <FileType>1</FileType>
               <FilePath>../Src/usart.c</FilePath>
             </File>
+            <File>
+              <FileName>user.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Src\user.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

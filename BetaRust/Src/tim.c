@@ -557,17 +557,7 @@ void HAL_TIM_Base_MspDeInit(TIM_HandleTypeDef* tim_baseHandle)
 } 
 
 /* USER CODE BEGIN 1 */
-void user_pwm_setvalue(float value,uint32_t Channel)
-{
-    TIM_OC_InitTypeDef sConfigOC;
- 
-    sConfigOC.OCMode = TIM_OCMODE_PWM1;
-    sConfigOC.Pulse = value*(htim4.Init.Period+1);
-    sConfigOC.OCPolarity = TIM_OCPOLARITY_HIGH;
-    sConfigOC.OCFastMode = TIM_OCFAST_DISABLE;
-    HAL_TIM_PWM_ConfigChannel(&htim4, &sConfigOC, Channel);
-    HAL_TIM_PWM_Start(&htim4, Channel);   
-}
+
 /* USER CODE END 1 */
 
 /**

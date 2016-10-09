@@ -32,3 +32,4 @@ betarust\main.o: ../Inc/i2c.h
 betarust\main.o: ../Inc/tim.h
 betarust\main.o: ../Inc/usart.h
 betarust\main.o: ../Inc/gpio.h
+betarust\main.o: ../Inc/user.h

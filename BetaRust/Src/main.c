@@ -38,7 +38,7 @@
 #include "gpio.h"
 
 /* USER CODE BEGIN Includes */
-
+#include "user.h"
 /* USER CODE END Includes */
 
 /* Private variables ---------------------------------------------------------*/
@@ -96,17 +96,30 @@ int main(void)
 	HAL_TIM_PWM_Start(&htim4,TIM_CHANNEL_1);
 	HAL_TIM_PWM_Start(&htim4,TIM_CHANNEL_2);
   /* USER CODE END 2 */
-	user_pwm_setvalue(0.2,TIM_CHANNEL_1);
-	user_pwm_setvalue(0.7,TIM_CHANNEL_2);
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
   /* USER CODE END WHILE */
-		user_pwm_setvalue(0.2,TIM_CHANNEL_1);
-		HAL_Delay(5000);
-		user_pwm_setvalue(0.7,TIM_CHANNEL_1);
-		HAL_Delay(5000);
+		//egs
+		set_speed(127,127);
+		HAL_Delay(2000);
+		set_speed(0,127);
+		HAL_Delay(2000);
+		set_speed(-128,127);
+		HAL_Delay(2000);
+		set_speed(127,0);
+		HAL_Delay(2000);
+		set_speed(0,0);
+		HAL_Delay(2000);
+		set_speed(-128,0);
+		HAL_Delay(2000);
+		set_speed(127,-128);
+		HAL_Delay(2000);
+		set_speed(0,-128);
+		HAL_Delay(2000);
+		set_speed(-128,-128);
+		HAL_Delay(2000);
   /* USER CODE BEGIN 3 */
 
   }

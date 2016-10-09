@@ -73,7 +73,6 @@ void HAL_TIM_MspPostInit(TIM_HandleTypeDef *htim);
                 
 
 /* USER CODE BEGIN Prototypes */
-void user_pwm_setvalue(float value,uint32_t Channel);
 /* USER CODE END Prototypes */
 
 #ifdef __cplusplus

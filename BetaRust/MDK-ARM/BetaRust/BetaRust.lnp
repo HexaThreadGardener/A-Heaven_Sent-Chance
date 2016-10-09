@@ -7,6 +7,7 @@
 "betarust\gpio.o"
 "betarust\i2c.o"
 "betarust\usart.o"
+"betarust\user.o"
 "betarust\stm32f1xx_hal_tim.o"
 "betarust\stm32f1xx_hal_gpio_ex.o"
 "betarust\stm32f1xx_hal_tim_ex.o"
