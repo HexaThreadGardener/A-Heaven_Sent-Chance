@@ -57,6 +57,10 @@
 #define FC_03_6_GPIO_Port GPIOA
 #define FC_03_7_Pin GPIO_PIN_7
 #define FC_03_7_GPIO_Port GPIOA
+#define Communicate_Tx_Pin GPIO_PIN_9
+#define Communicate_Tx_GPIO_Port GPIOA
+#define Communicate_Rx_Pin GPIO_PIN_10
+#define Communicate_Rx_GPIO_Port GPIOA
 #define LED_Pin GPIO_PIN_12
 #define LED_GPIO_Port GPIOC
 #define L1_Pin GPIO_PIN_2

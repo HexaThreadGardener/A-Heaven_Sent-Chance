@@ -5,6 +5,8 @@
 "betarust\main.o"
 "betarust\tim.o"
 "betarust\gpio.o"
+"betarust\i2c.o"
+"betarust\usart.o"
 "betarust\stm32f1xx_hal_tim.o"
 "betarust\stm32f1xx_hal_gpio_ex.o"
 "betarust\stm32f1xx_hal_tim_ex.o"
@@ -17,6 +19,8 @@
 "betarust\stm32f1xx_hal_dma.o"
 "betarust\stm32f1xx_hal_cortex.o"
 "betarust\stm32f1xx_hal_pwr.o"
+"betarust\stm32f1xx_hal_i2c.o"
+"betarust\stm32f1xx_hal_uart.o"
 "betarust\system_stm32f1xx.o"
 --library_type=microlib --strict --scatter "BetaRust\BetaRust.sct"
 
