@@ -61,7 +61,6 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin);
 /* USER CODE BEGIN 0 */
 
 /* USER CODE END 0 */
-
 int main(void)
 {
 

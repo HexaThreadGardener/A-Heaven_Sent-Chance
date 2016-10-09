@@ -2,7 +2,7 @@ betarust\system_stm32f1xx.o: ../Drivers/CMSIS//Device/ST/STM32F1xx/Source/Templa
 betarust\system_stm32f1xx.o: ../Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f1xx.h
 betarust\system_stm32f1xx.o: ../Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f103xe.h
 betarust\system_stm32f1xx.o: ../Drivers/CMSIS/Include/core_cm3.h
-betarust\system_stm32f1xx.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+betarust\system_stm32f1xx.o: D:\Program Files (x86)\MDK\ARM\ARMCC\Bin\..\include\stdint.h
 betarust\system_stm32f1xx.o: ../Drivers/CMSIS/Include/core_cmInstr.h
 betarust\system_stm32f1xx.o: ../Drivers/CMSIS/Include/cmsis_armcc.h
 betarust\system_stm32f1xx.o: ../Drivers/CMSIS/Include/core_cmFunc.h
@@ -14,7 +14,7 @@ betarust\system_stm32f1xx.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_r
 betarust\system_stm32f1xx.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_def.h
 betarust\system_stm32f1xx.o: ../Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f1xx.h
 betarust\system_stm32f1xx.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy/stm32_hal_legacy.h
-betarust\system_stm32f1xx.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
+betarust\system_stm32f1xx.o: D:\Program Files (x86)\MDK\ARM\ARMCC\Bin\..\include\stdio.h
 betarust\system_stm32f1xx.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc_ex.h
 betarust\system_stm32f1xx.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_gpio.h
 betarust\system_stm32f1xx.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_gpio_ex.h
