@@ -1,56 +1,75 @@
-# A-Heaven_Sent-Chance　
-## 官方那些事
-### 调试
-### 技术资料
-这块两个队不能一样，PCB的话实在不行就换布线，代码可以混乱混乱，具体的算法简述可以瞎写写
+## 接口协议
+YQY 
+Peter Lu 
 
-## 硬件
-  - 红外对管 目前想法安装在车底 淘宝卖家Risym
-  - LED灯（白） 为红外增加亮度，以免小车挡光
-  - 电机 要求进行适当的屏蔽（如使用金属网等）
-  - 定向陀螺仪（IIC传输协议） 含DMP MPU6050 卖家同上
-  - 电子指南针模块（IIC传输协议） HMC5883L 卖家同上
-  - 杜邦线
-  - 电池
-  - 待补充
-  
-## 抽象
-  - 车轮控制抽象 使用[-1,1]之间的浮点数确定每一个轮子的转动方向和转动速度
-  - 行进抽象 使用坐标点（或速度空间坐标点）完成行进的实现
-  - 状态获取抽象
-  - 高层抽象（待补充）
-  
-## 算法
-  - 先跑一遍地图
-  - 具体情况具体分析
-  - 整体估价函数怎么写？
-  
-### 没塔
-黑白颠倒没什么卵用（倒也不好说）
-剩下道具还是可以好好用的
-无人机两种状态可以视为+-用A*//?
+2016/10/9 15:02:53 
 
-  - 无人机攻击状态
-  - 无人机治疗状态 
-  
-### 有塔
-  - 如果没受到攻击
-  - 如果受到攻击
-  - 无人机攻击状态
-  - 无人机治疗状态
-  
-整体的情况看起来“良机”没什么用，就是可以对付对付
+### 上位机通信部分
+```c
+struct status{
+    bool GameStatus;//00 待机，01开始，10暂停，11结束
+    bool IsMinDamaging;//是否收到少量目标伤害
+    bool IsMaxDamaging;//是否收到大量目标伤害
+    bool IsControling;//是否正在控制飞机
+    bool IsHPUp;//是否正在回血
+    bool IsHPDown;//是否正在掉血
+    bool IsBorder;//是否出界
+    bool IsTargetExist;//目标点是否存在
+    Enum TargetColor;//目标点颜色
+    Point MyPos;
+    Point EnemyPos;
+    Point TargetPos;
+    Point PlanePos;
+    int MyHP;
+    int EnemyHp;
+    Point PropPos;
+    int GameTime;
+    Enum PropType;
+};
+void GetStatus();//每次读取上位机信息,开全局吧
+void SendStatus(int x,int y);//选手发送信息
+```
 
-## 理论计算
-  - 先转后走和边转变走的优化问题
-  - 首次巡航的数据记录问题
+### 电机
+```c
+void Motor(u8 n, int c)
+//电机n以c的速度前进
+//c -255~255，正数表示正转，负数表示反转
+//n 1 or 2,1-left,2-right
+//尽量线性
+```
+
+### 端口读写
+需要明确告知：
+- GPIO
+    - 已开GPIO
+    - 读写方法
+- IIC
+    - 已开端口
+    - 读写方法
 
 
-For 18th THEDC
+### 寻路基本模块
+```c
+void Stop();//无论之前处于什么状态，停住不动。
+//需要内部测试以决定正转or反转
 
-## contributors
-- ZeroWeight
-- mcfloundinho
-- DavidYQY
-- Archer
-- liuyuezhangadam
+void MoveFront(int sec);//笔直向前走,其实情况不一定是两个电机转速一样。
+
+void TurnRound(double degree);//转一个角度，以顺时针计算
+//目前想到的实现方式有三种：1、延时，2、罗盘，3、陀螺仪
+//具体用哪个看鲁棒性
+```
+
+### 获取当前状态
+```c
+int GetDirection();//用罗盘或者陀螺仪获取当前小车朝向
+bool IsCrush();//是否跟对方小车碰撞
+.....
+```
+
+### 策略
+```c
+void GetWholeMap();//遍历地图
+.....
+```
