@@ -38,7 +38,7 @@
 #include "gpio.h"
 
 /* USER CODE BEGIN Includes */
-
+#include "user.h"
 /* USER CODE END Includes */
 
 /* Private variables ---------------------------------------------------------*/
@@ -54,7 +54,8 @@ void Error_Handler(void);
 
 /* USER CODE BEGIN PFP */
 /* Private function prototypes -----------------------------------------------*/
-
+void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim);
+void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin);
 /* USER CODE END PFP */
 
 /* USER CODE BEGIN 0 */
@@ -89,17 +90,36 @@ int main(void)
   MX_USART1_UART_Init();
   MX_USART3_UART_Init();
   MX_TIM6_Init();
-
+  MX_TIM7_Init();
+  MX_USART2_UART_Init();
   /* USER CODE BEGIN 2 */
-
+	HAL_TIM_PWM_Start(&htim4,TIM_CHANNEL_1);
+	HAL_TIM_PWM_Start(&htim4,TIM_CHANNEL_2);
   /* USER CODE END 2 */
-
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
   /* USER CODE END WHILE */
-
+		//egs
+		set_speed(127,127);
+		HAL_Delay(2000);
+		set_speed(0,127);
+		HAL_Delay(2000);
+		set_speed(-128,127);
+		HAL_Delay(2000);
+		set_speed(127,0);
+		HAL_Delay(2000);
+		set_speed(0,0);
+		HAL_Delay(2000);
+		set_speed(-128,0);
+		HAL_Delay(2000);
+		set_speed(127,-128);
+		HAL_Delay(2000);
+		set_speed(0,-128);
+		HAL_Delay(2000);
+		set_speed(-128,-128);
+		HAL_Delay(2000);
   /* USER CODE BEGIN 3 */
 
   }
@@ -144,7 +164,13 @@ void SystemClock_Config(void)
 }
 
 /* USER CODE BEGIN 4 */
-
+void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
+{
+	
+}
+void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
+{
+}
 /* USER CODE END 4 */
 
 /**
