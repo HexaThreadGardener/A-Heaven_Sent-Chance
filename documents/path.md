@@ -3,9 +3,7 @@
 ## 差速驱动理论
 
 定义
-![](http://latex.codecogs.com/gif.latex?w_l,w_r) 分别为左右轮的转速，![](http://latex.codecogs.com/gif.latex?w(t)=(w_l(t),w_r(t))\\in[-1,1]^2)，则有
-
-![](http://latex.codecogs.com/gif.latex?\\cases{v=\\frac{1}{2}(w_l+w_r)\\\\\\omega=\\frac{1}{2b}(w_r-w_l)}.)
+![](http://latex.codecogs.com/gif.latex?w_l,w_r) 分别为左右轮的转速，![](http://latex.codecogs.com/gif.latex?w(t)=(w_l(t),w_r(t))\\in[-1,1]^2)，则有![](http://latex.codecogs.com/gif.latex?v=\\frac{1}{2}(w_l+w_r),\\omega=\\frac{1}{2b}(w_r-w_l).)
 
 可以证明，在不考虑加速度上限的情况下，最优路径只包括原地转弯和直线行进（前进或后退）[1]. 
 
@@ -35,9 +33,9 @@
     + 【黑白颠倒】道具：🎹
     + 【制空权】道具：✈️
     + 【恢复生命】道具：🍎
-- ![](http://latex.codecogs.com/gif.latex?d(X,Y),X\\in{A,B},Y\\in{G,P,C})定义为主体 X 从当前状态到位置 Y 所需的【前进、旋转、制动】时间开销之和. ![](http://latex.codecogs.com/gif.latex?d(X,Y_1,Y_2),X\\in{A,B},Y_1,Y_2\\in{G,P,C}) 定义为主体 X 从当前状态【经由位置 Y1 到达位置 Y2】所需的【前进、旋转、制动】时间开销之和. 由于对方的朝向及其小车的具体参数无从而知，需要进行适当的估算.
+- ![](http://latex.codecogs.com/gif.latex?d(X,Y),X\\in\\{A,B\\},Y\\in\\{G,P,C\\})定义为主体 X 从当前状态到位置 Y 所需的【前进、旋转、制动】时间开销之和. ![](http://latex.codecogs.com/gif.latex?d(X,Y_1,Y_2),X\\in\\{A,B\\},Y_1,Y_2\\in\\{G,P,C\\}) 定义为主体 X 从当前状态【经由位置 Y1 到达位置 Y2】所需的【前进、旋转、制动】时间开销之和. 由于对方的朝向及其小车的具体参数无从而知，需要进行适当的估算.
 - 在【非占点】状态下，以目标点作为目标，除非：
-    + 当前道具为 🎹，且 ![](http://latex.codecogs.com/gif.latex?\\cases{d(A,G)\\geq d(B,G)\\\\d(A,P)\\leq d(B,P)})，以道具作为目标.
+    + 当前道具为 🎹，且 ![](http://latex.codecogs.com/gif.latex?d(A,G)\\geq d(B,G),d(A,P)\\leq d(B,P))，以道具作为目标.
     + 当前道具为 ✈ 或 🍎 ️，且 ![](http://latex.codecogs.com/gif.latex?d(A,P,G)\\leq d(B,G))，以道具作为目标.
 - 在【占点】状态下：
     + 若当前道具为 🍎 ️，且 ![](http://latex.codecogs.com/gif.latex?d(A,P,G)\\leq d(B,G))，以道具作为目标.
