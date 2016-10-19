@@ -37,9 +37,9 @@
 #include "tim.h"
 #include "usart.h"
 #include "gpio.h"
-
+#include "stdlib.h"
 /* USER CODE BEGIN Includes */
-#define NUM 10
+#define NUM 18
 #define RAW 18
 //#undef TEMP
 #define TEMP
@@ -60,9 +60,8 @@ void Error_Handler(void);
 /* USER CODE BEGIN PFP */
 /* Private function prototypes -----------------------------------------------*/
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin);
-void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim);
 void Analyze(void);
-void GetVector(void);
+void GetVector(uint8_t*);
 void CheckVector(void);
 /* USER CODE END PFP */
 
@@ -94,9 +93,7 @@ int main(void)
   MX_USART1_UART_Init();
   MX_USART2_UART_Init();
   MX_USART3_UART_Init();
-  MX_TIM3_Init();
-	HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_1);
-	HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_2);
+
   /* USER CODE BEGIN 2 */
 
   /* USER CODE END 2 */
@@ -106,8 +103,7 @@ int main(void)
   while (1)
   {
   /* USER CODE END WHILE */
-		HAL_UART_Receive(&huart2,raw_data,RAW,30);
-		Analyze();
+
   /* USER CODE BEGIN 3 */
 
   }
@@ -210,19 +206,55 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin){
 		HAL_SPI_Transmit(&hspi1,info_buffer,NUM,10);
 	}
 }
-void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim){
-	if(htim==&htim3){
-		//do sth in 1kHz
-	}
-}
 void Analyze(){
 	if(raw_data[16]==0x0D&&raw_data[17]==0x0A){
 			//Analyze the data
-			GetVector();
+			HAL_GPIO_WritePin(GPIOB,AimColor_OUT_Pin,(GPIO_PinState)(raw_data[1]&1));
+			raw_data[1]>>=1;
+			HAL_GPIO_WritePin(GPIOD,AimExist_OUT_Pin,(GPIO_PinState)(raw_data[1]&1));
+			raw_data[1]>>=1;
+			HAL_GPIO_WritePin(GPIOA,Outside_OUT_Pin,(GPIO_PinState)(raw_data[1]&1));
+			raw_data[1]>>=1;
+			HAL_GPIO_WritePin(GPIOB,A_Hurt_OUT_Pin,(GPIO_PinState)(raw_data[1]&1));
+			raw_data[1]>>=1;
+			HAL_GPIO_WritePin(GPIOB,A_Cure_OUT_Pin,(GPIO_PinState)(raw_data[1]&1));
+			raw_data[1]>>=1;
+			HAL_GPIO_WritePin(GPIOB,H_Hurt_OUT_Pin,(GPIO_PinState)(raw_data[1]&1));
+			raw_data[1]>>=1;
+			HAL_GPIO_WritePin(GPIOB,L_Hurt_OUT_Pin,(GPIO_PinState)(raw_data[1]&1));
+			raw_data[1]>>=1;
+			switch(raw_data[15]>>6){
+				case 0:
+					HAL_GPIO_WritePin(GPIOB,BW_OUT_Pin,GPIO_PIN_SET);
+					HAL_GPIO_WritePin(GPIOB,AIR_OUT_Pin,GPIO_PIN_RESET);
+					HAL_GPIO_WritePin(GPIOB,HP_OUT_Pin,GPIO_PIN_RESET);
+					break;
+				case 1:
+					HAL_GPIO_WritePin(GPIOB,BW_OUT_Pin,GPIO_PIN_RESET);
+					HAL_GPIO_WritePin(GPIOB,AIR_OUT_Pin,GPIO_PIN_SET);
+					HAL_GPIO_WritePin(GPIOB,HP_OUT_Pin,GPIO_PIN_RESET);
+					break;
+				case 2:
+					HAL_GPIO_WritePin(GPIOB,BW_OUT_Pin,GPIO_PIN_RESET);
+					HAL_GPIO_WritePin(GPIOB,AIR_OUT_Pin,GPIO_PIN_RESET);
+					HAL_GPIO_WritePin(GPIOB,HP_OUT_Pin,GPIO_PIN_SET);
+					break;
+				case 3:
+					HAL_GPIO_WritePin(GPIOB,BW_OUT_Pin,GPIO_PIN_RESET);
+					HAL_GPIO_WritePin(GPIOB,AIR_OUT_Pin,GPIO_PIN_RESET);
+					HAL_GPIO_WritePin(GPIOB,HP_OUT_Pin,GPIO_PIN_RESET);
+					break;
+			}
+			info_buffer[0]=0xAB;
+			for(int i=0;i<12;i++)
+				info_buffer[1+i]=raw_data[2+i];
+			info_buffer[14]=0xCD;
+			GetVector(info_buffer+15);
+			info_buffer[17]=0xEF;
 			CheckVector();
 	}
 }
-void GetVector(){
+void GetVector(uint8_t* buffer){
 	//get the vector
 }
 void CheckVector(){

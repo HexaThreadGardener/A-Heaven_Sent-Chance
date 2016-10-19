@@ -18,7 +18,6 @@ SYS	Serial Wire	SYS_JTMS-SWDIO	PA13
 SYS	SysTick	SYS_VS_Systick	VP_SYS_VS_Systick
 TIM2	PWM Generation CH1	TIM2_CH1	PA0-WKUP
 TIM2	PWM Generation CH2	TIM2_CH2	PA1
-TIM3	Internal Clock	TIM3_VS_ClockSourceINT	VP_TIM3_VS_ClockSourceINT
 USART1	Asynchronous	USART1_RX	PA10
 USART1	Asynchronous	USART1_TX	PA9
 USART2	Asynchronous	USART2_RX	PA3

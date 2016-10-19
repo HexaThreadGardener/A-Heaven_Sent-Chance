@@ -34,3 +34,4 @@ betarust_slave\main.o: ../Inc/spi.h
 betarust_slave\main.o: ../Inc/tim.h
 betarust_slave\main.o: ../Inc/usart.h
 betarust_slave\main.o: ../Inc/gpio.h
+betarust_slave\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
