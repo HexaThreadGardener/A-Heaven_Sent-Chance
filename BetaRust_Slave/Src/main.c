@@ -41,6 +41,7 @@
 /* USER CODE BEGIN Includes */
 #define NUM 18
 #define RAW 18
+#define T 4
 //#undef TEMP
 #define TEMP
 /* USER CODE END Includes */
@@ -51,6 +52,7 @@
 /* Private variables ---------------------------------------------------------*/
 uint8_t raw_data[RAW];
 uint8_t info_buffer[NUM];
+uint8_t send_buffer[T];
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -95,15 +97,35 @@ int main(void)
   MX_USART3_UART_Init();
 
   /* USER CODE BEGIN 2 */
-
+	HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_1);
+	HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_2);
+	send_buffer[2]=0x0D;
+	send_buffer[3]=0x0A;
   /* USER CODE END 2 */
-
+	
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
   /* USER CODE END WHILE */
-
+#ifdef TEMP
+		UART_HandleTypeDef* huart =&huart1;
+#else
+		UART_HandleTypeDef* huart =&huart2;
+#endif
+		HAL_UART_Receive(huart,raw_data,RAW,30);
+		Analyze();
+		if(raw_data[1]&1){
+			//go to opponent
+			send_buffer[0]=raw_data[4];
+			send_buffer[1]=raw_data[5];
+			HAL_UART_Transmit(huart,send_buffer,T,10);
+		}
+		else{
+			send_buffer[0]=raw_data[2];
+			send_buffer[1]=raw_data[3];
+			HAL_UART_Transmit(huart,send_buffer,T,10);
+		}
   /* USER CODE BEGIN 3 */
 
   }
