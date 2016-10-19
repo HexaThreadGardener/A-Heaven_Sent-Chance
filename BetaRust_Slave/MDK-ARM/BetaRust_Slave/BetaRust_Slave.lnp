@@ -1,0 +1,32 @@
+--cpu Cortex-M3
+"betarust_slave\startup_stm32f103xe.o"
+"betarust_slave\system_stm32f1xx.o"
+"betarust_slave\stm32f1xx_hal_pwr.o"
+"betarust_slave\stm32f1xx_hal_tim_ex.o"
+"betarust_slave\stm32f1xx_hal_uart.o"
+"betarust_slave\stm32f1xx_hal_rcc_ex.o"
+"betarust_slave\stm32f1xx_hal.o"
+"betarust_slave\stm32f1xx_hal_flash.o"
+"betarust_slave\stm32f1xx_hal_i2c.o"
+"betarust_slave\stm32f1xx_hal_tim.o"
+"betarust_slave\stm32f1xx_hal_spi.o"
+"betarust_slave\stm32f1xx_hal_gpio.o"
+"betarust_slave\stm32f1xx_hal_flash_ex.o"
+"betarust_slave\stm32f1xx_hal_dma.o"
+"betarust_slave\stm32f1xx_hal_cortex.o"
+"betarust_slave\stm32f1xx_hal_rcc.o"
+"betarust_slave\stm32f1xx_hal_gpio_ex.o"
+"betarust_slave\stm32f1xx_hal_spi_ex.o"
+"betarust_slave\spi.o"
+"betarust_slave\usart.o"
+"betarust_slave\stm32f1xx_hal_msp.o"
+"betarust_slave\main.o"
+"betarust_slave\gpio.o"
+"betarust_slave\i2c.o"
+"betarust_slave\tim.o"
+"betarust_slave\stm32f1xx_it.o"
+--library_type=microlib --strict --scatter "BetaRust_Slave\BetaRust_Slave.sct"
+
+--diag_suppress=L6329 --summary_stderr --info summarysizes --map --xref --callgraph --symbols
+--info sizes --info totals --info unused --info veneers
+--list "BetaRust_Slave.map" -o BetaRust_Slave\BetaRust_Slave.axf
