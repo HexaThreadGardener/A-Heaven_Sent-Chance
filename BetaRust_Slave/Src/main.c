@@ -65,6 +65,7 @@ void Error_Handler(void);
 /* Private function prototypes -----------------------------------------------*/
 void HAL_SPI_RxCpltCallback(SPI_HandleTypeDef *hspi);
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin);
+void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart);
 void Analyze(void);
 void GetVector(uint8_t*);
 void CheckVector(void);
@@ -118,8 +119,7 @@ int main(void)
 #else
 		UART_HandleTypeDef* huart =&huart2;
 #endif
-		HAL_UART_Receive(huart,raw_data,RAW,30);
-		Analyze();
+		HAL_UART_Receive_DMA(huart,raw_data,RAW);
 		if(raw_data[1]&1){
 			//go to opponent
 			send_buffer[0]=raw_data[4];
@@ -187,7 +187,6 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin){
 	}
 }
 void Analyze(){
-	if(raw_data[16]==0x0D&&raw_data[17]==0x0A){
 			//Analyze the data
 			HAL_GPIO_WritePin(GPIOB,AimColor_OUT_Pin,(GPIO_PinState)(raw_data[1]&1));
 			raw_data[1]>>=1;
@@ -232,7 +231,6 @@ void Analyze(){
 			GetVector(info_buffer+14);
 			info_buffer[16]=0xEF;
 			CheckVector();
-	}
 }
 void HAL_SPI_RxCpltCallback(SPI_HandleTypeDef *hspi){
 	
@@ -283,6 +281,11 @@ void HAL_SPI_RxCpltCallback(SPI_HandleTypeDef *hspi){
 			HAL_TIM_PWM_ConfigChannel(&htim2, &R_sConfigOC, TIM_CHANNEL_2);
 			HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_2);
 		}
+}
+void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart){
+	if(raw_data[16]==0x0D&&raw_data[17]==0x0A){
+		Analyze();
+	}
 }
 void GetVector(uint8_t* buffer){
 	//get the vector
