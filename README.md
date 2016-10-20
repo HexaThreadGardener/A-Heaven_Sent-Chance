@@ -50,7 +50,7 @@ For 18th THEDC
 
 ## contributors
 - ZeroWeight
-- mcflondinu
+- mcfloundinho
 - DavidYQY
 - Archer
 - liuyuezhangadam

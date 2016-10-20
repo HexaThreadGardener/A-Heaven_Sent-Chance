@@ -25,6 +25,7 @@
 "betarust_slave\i2c.o"
 "betarust_slave\tim.o"
 "betarust_slave\stm32f1xx_it.o"
+"betarust_slave\dma.o"
 --library_type=microlib --strict --scatter "BetaRust_Slave\BetaRust_Slave.sct"
 
 --diag_suppress=L6329 --summary_stderr --info summarysizes --map --xref --callgraph --symbols
