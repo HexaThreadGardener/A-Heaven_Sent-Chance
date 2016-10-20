@@ -31,3 +31,4 @@ betarust_slave\spi.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim.h
 betarust_slave\spi.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h
 betarust_slave\spi.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h
 betarust_slave\spi.o: ../Inc/gpio.h
+betarust_slave\spi.o: ../Inc/dma.h

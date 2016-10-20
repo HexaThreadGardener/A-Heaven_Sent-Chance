@@ -1,0 +1,30 @@
+--cpu Cortex-M3
+"betarust_master\stm32f1xx_hal_dma.o"
+"betarust_master\stm32f1xx_hal_gpio_ex.o"
+"betarust_master\stm32f1xx_hal_rcc.o"
+"betarust_master\stm32f1xx_hal_cortex.o"
+"betarust_master\stm32f1xx_hal_rcc_ex.o"
+"betarust_master\stm32f1xx_hal.o"
+"betarust_master\stm32f1xx_hal_uart.o"
+"betarust_master\stm32f1xx_hal_gpio.o"
+"betarust_master\stm32f1xx_hal_tim_ex.o"
+"betarust_master\stm32f1xx_hal_flash.o"
+"betarust_master\stm32f1xx_hal_spi_ex.o"
+"betarust_master\stm32f1xx_hal_flash_ex.o"
+"betarust_master\stm32f1xx_hal_pwr.o"
+"betarust_master\stm32f1xx_hal_tim.o"
+"betarust_master\stm32f1xx_hal_spi.o"
+"betarust_master\main.o"
+"betarust_master\spi.o"
+"betarust_master\stm32f1xx_it.o"
+"betarust_master\stm32f1xx_hal_msp.o"
+"betarust_master\usart.o"
+"betarust_master\gpio.o"
+"betarust_master\dma.o"
+"betarust_master\startup_stm32f103xe.o"
+"betarust_master\system_stm32f1xx.o"
+--library_type=microlib --strict --scatter "BetaRust_Master\BetaRust_Master.sct"
+
+--diag_suppress=L6329 --summary_stderr --info summarysizes --map --xref --callgraph --symbols
+--info sizes --info totals --info unused --info veneers
+--list "BetaRust_Master.map" -o BetaRust_Master\BetaRust_Master.axf

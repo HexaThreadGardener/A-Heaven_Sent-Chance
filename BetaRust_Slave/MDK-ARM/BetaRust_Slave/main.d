@@ -29,9 +29,9 @@ betarust_slave\main.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_spi.h
 betarust_slave\main.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim.h
 betarust_slave\main.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h
 betarust_slave\main.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h
+betarust_slave\main.o: ../Inc/dma.h
 betarust_slave\main.o: ../Inc/i2c.h
 betarust_slave\main.o: ../Inc/spi.h
 betarust_slave\main.o: ../Inc/tim.h
 betarust_slave\main.o: ../Inc/usart.h
 betarust_slave\main.o: ../Inc/gpio.h
-betarust_slave\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
