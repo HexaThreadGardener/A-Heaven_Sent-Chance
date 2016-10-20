@@ -40,7 +40,7 @@
 #include "gpio.h"
 
 /* USER CODE BEGIN Includes */
-#define NUM 18
+#define NUM 17
 #define RAW 18
 #define T 4
 #undef TEMP
@@ -54,6 +54,7 @@
 uint8_t raw_data[RAW];
 uint8_t info_buffer[NUM];
 uint8_t send_buffer[T];
+uint8_t _buffer[4];
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -62,6 +63,7 @@ void Error_Handler(void);
 
 /* USER CODE BEGIN PFP */
 /* Private function prototypes -----------------------------------------------*/
+void HAL_SPI_RxCpltCallback(SPI_HandleTypeDef *hspi);
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin);
 void Analyze(void);
 void GetVector(uint8_t*);
@@ -104,9 +106,12 @@ int main(void)
 	send_buffer[2]=0x0D;
 	send_buffer[3]=0x0A;
   /* USER CODE END 2 */
-
+	
   /* Infinite loop */
-  /* USER CODE BEGIN WHILE */
+  
+  while (1)
+  {
+		/* USER CODE BEGIN WHILE */
   
 #ifdef TEMP
 		UART_HandleTypeDef* huart =&huart1;
@@ -127,7 +132,8 @@ int main(void)
 			HAL_UART_Transmit(huart,send_buffer,T,10);
 		}
  
-  /* USER CODE END WHILE */
+		/* USER CODE END WHILE */
+	}
 
   /* USER CODE BEGIN 3 */
   /* USER CODE END 3 */
@@ -174,59 +180,9 @@ void SystemClock_Config(void)
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin){
 	if(GPIO_Pin==Speed_EXTI4_Pin){
 		//get_speed set_speed
-		uint8_t buffer[4];
-		HAL_SPI_Receive_DMA(&hspi1,buffer,4);
-		if(buffer[0]==0xAB&&buffer[3]==0xCD){//check
-			HAL_GPIO_TogglePin(GPIOC,LED_Pin);
-			//set speed
-			if(buffer[1]>128){
-				buffer[1]-=128;
-				HAL_GPIO_WritePin(GPIOC,L1_Pin,GPIO_PIN_SET);
-				HAL_GPIO_WritePin(GPIOC,L0_Pin,GPIO_PIN_RESET);
-			}
-			else if(buffer[1]<128){
-				buffer[1]=127-buffer[1];
-				HAL_GPIO_WritePin(GPIOC,L1_Pin,GPIO_PIN_RESET);
-				HAL_GPIO_WritePin(GPIOC,L0_Pin,GPIO_PIN_SET);
-			}
-			else{
-				buffer[1]=100;
-				HAL_GPIO_WritePin(GPIOC,L1_Pin,GPIO_PIN_SET);
-				HAL_GPIO_WritePin(GPIOC,L0_Pin,GPIO_PIN_SET);
-			}
-			if(buffer[2]>128){
-				buffer[2]-=128;
-				HAL_GPIO_WritePin(GPIOC,R1_Pin,GPIO_PIN_SET);
-				HAL_GPIO_WritePin(GPIOC,R0_Pin,GPIO_PIN_RESET);
-			}
-			else if(buffer[2]<128){
-				buffer[2]=127-buffer[2];
-				HAL_GPIO_WritePin(GPIOC,R1_Pin,GPIO_PIN_RESET);
-				HAL_GPIO_WritePin(GPIOC,R0_Pin,GPIO_PIN_SET);
-			}
-			else{
-				buffer[2]=100;
-				HAL_GPIO_WritePin(GPIOC,R1_Pin,GPIO_PIN_SET);
-				HAL_GPIO_WritePin(GPIOC,R0_Pin,GPIO_PIN_SET);
-			}
-			TIM_OC_InitTypeDef L_sConfigOC;
-			L_sConfigOC.OCMode = TIM_OCMODE_PWM1;
-			L_sConfigOC.Pulse = (buffer[1]*(htim2.Init.Period+1))>>7;
-			L_sConfigOC.OCPolarity = TIM_OCPOLARITY_HIGH;
-			L_sConfigOC.OCFastMode = TIM_OCFAST_DISABLE;
-			HAL_TIM_PWM_ConfigChannel(&htim2, &L_sConfigOC, TIM_CHANNEL_1);
-			HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_1);
-			TIM_OC_InitTypeDef R_sConfigOC;
-			R_sConfigOC.OCMode = TIM_OCMODE_PWM1;
-			R_sConfigOC.Pulse = (buffer[2]*(htim2.Init.Period+1))>>7;
-			R_sConfigOC.OCPolarity = TIM_OCPOLARITY_HIGH;
-			R_sConfigOC.OCFastMode = TIM_OCFAST_DISABLE;
-			HAL_TIM_PWM_ConfigChannel(&htim2, &R_sConfigOC, TIM_CHANNEL_2);
-			HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_2);
-		}
+		HAL_SPI_Receive_DMA(&hspi1,_buffer,4);
 	}
 	else if(GPIO_Pin==Info_EXTI5_Pin){
-		HAL_Delay(1);
 		HAL_SPI_Transmit(&hspi1,info_buffer,NUM,10);
 	}
 }
@@ -272,11 +228,61 @@ void Analyze(){
 			info_buffer[0]=0xAB;
 			for(int i=0;i<12;i++)
 				info_buffer[1+i]=raw_data[2+i];
-			info_buffer[14]=0xCD;
-			GetVector(info_buffer+15);
-			info_buffer[17]=0xEF;
+			info_buffer[13]=0xCD;
+			GetVector(info_buffer+14);
+			info_buffer[16]=0xEF;
 			CheckVector();
 	}
+}
+void HAL_SPI_RxCpltCallback(SPI_HandleTypeDef *hspi){
+	
+	if(_buffer[0]==0xAB&&_buffer[3]==0xCD){//check
+			//set speed
+			if(_buffer[1]>128){
+				_buffer[1]-=128;
+				HAL_GPIO_WritePin(GPIOC,L1_Pin,GPIO_PIN_SET);
+				HAL_GPIO_WritePin(GPIOC,L0_Pin,GPIO_PIN_RESET);
+			}
+			else if(_buffer[1]<128){
+				_buffer[1]=127-_buffer[1];
+				HAL_GPIO_WritePin(GPIOC,L1_Pin,GPIO_PIN_RESET);
+				HAL_GPIO_WritePin(GPIOC,L0_Pin,GPIO_PIN_SET);
+			}
+			else{
+				_buffer[1]=100;
+				HAL_GPIO_WritePin(GPIOC,L1_Pin,GPIO_PIN_SET);
+				HAL_GPIO_WritePin(GPIOC,L0_Pin,GPIO_PIN_SET);
+			}
+			if(_buffer[2]>128){
+				_buffer[2]-=128;
+				HAL_GPIO_WritePin(GPIOC,R1_Pin,GPIO_PIN_SET);
+				HAL_GPIO_WritePin(GPIOC,R0_Pin,GPIO_PIN_RESET);
+			}
+			else if(_buffer[2]<128){
+				_buffer[2]=127-_buffer[2];
+				HAL_GPIO_WritePin(GPIOC,R1_Pin,GPIO_PIN_RESET);
+				HAL_GPIO_WritePin(GPIOC,R0_Pin,GPIO_PIN_SET);
+			}
+			else{
+				_buffer[2]=100;
+				HAL_GPIO_WritePin(GPIOC,R1_Pin,GPIO_PIN_SET);
+				HAL_GPIO_WritePin(GPIOC,R0_Pin,GPIO_PIN_SET);
+			}
+			TIM_OC_InitTypeDef L_sConfigOC;
+			L_sConfigOC.OCMode = TIM_OCMODE_PWM1;
+			L_sConfigOC.Pulse = (_buffer[1]*(htim2.Init.Period+1))>>7;
+			L_sConfigOC.OCPolarity = TIM_OCPOLARITY_HIGH;
+			L_sConfigOC.OCFastMode = TIM_OCFAST_DISABLE;
+			HAL_TIM_PWM_ConfigChannel(&htim2, &L_sConfigOC, TIM_CHANNEL_1);
+			HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_1);
+			TIM_OC_InitTypeDef R_sConfigOC;
+			R_sConfigOC.OCMode = TIM_OCMODE_PWM1;
+			R_sConfigOC.Pulse = (_buffer[2]*(htim2.Init.Period+1))>>7;
+			R_sConfigOC.OCPolarity = TIM_OCPOLARITY_HIGH;
+			R_sConfigOC.OCFastMode = TIM_OCFAST_DISABLE;
+			HAL_TIM_PWM_ConfigChannel(&htim2, &R_sConfigOC, TIM_CHANNEL_2);
+			HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_2);
+		}
 }
 void GetVector(uint8_t* buffer){
 	//get the vector
