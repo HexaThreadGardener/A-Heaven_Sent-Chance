@@ -3,7 +3,7 @@
 <title>Static Call Graph - [BetaRust_Slave\BetaRust_Slave.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image BetaRust_Slave\BetaRust_Slave.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5050106: Last Updated: Thu Oct 20 22:59:56 2016
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5050106: Last Updated: Fri Oct 21 18:37:58 2016
 <BR><P>
 <H3>Maximum Stack Usage =        132 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -618,7 +618,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[5d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GPIO_EXTI_Callback
 </UL>
 
-<P><STRONG><a name="[73]"></a>HAL_SPI_RxCpltCallback</STRONG> (Thumb, 244 bytes, Stack size 80 bytes, main.o(i.HAL_SPI_RxCpltCallback))
+<P><STRONG><a name="[73]"></a>HAL_SPI_RxCpltCallback</STRONG> (Thumb, 248 bytes, Stack size 80 bytes, main.o(i.HAL_SPI_RxCpltCallback))
 <BR><BR>[Stack]<UL><LI>Max Depth = 116<LI>Call Chain = HAL_SPI_RxCpltCallback &rArr; HAL_TIM_PWM_ConfigChannel &rArr; TIM_OC2_SetConfig
 </UL>
 <BR>[Calls]<UL><LI><a href="#[55]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GPIO_WritePin
@@ -764,7 +764,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[46]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[86]"></a>HAL_UART_RxCpltCallback</STRONG> (Thumb, 20 bytes, Stack size 0 bytes, main.o(i.HAL_UART_RxCpltCallback))
+<P><STRONG><a name="[86]"></a>HAL_UART_RxCpltCallback</STRONG> (Thumb, 26 bytes, Stack size 0 bytes, main.o(i.HAL_UART_RxCpltCallback))
 <BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = HAL_UART_RxCpltCallback &rArr; Analyze
 </UL>
 <BR>[Calls]<UL><LI><a href="#[54]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Analyze
@@ -952,7 +952,7 @@ Global Symbols
 
 <P><STRONG><a name="[a8]"></a>__scatterload_zeroinit</STRONG> (Thumb, 14 bytes, Stack size unknown bytes, handlers.o(i.__scatterload_zeroinit), UNUSED)
 
-<P><STRONG><a name="[46]"></a>main</STRONG> (Thumb, 120 bytes, Stack size 0 bytes, main.o(i.main))
+<P><STRONG><a name="[46]"></a>main</STRONG> (Thumb, 112 bytes, Stack size 0 bytes, main.o(i.main))
 <BR><BR>[Stack]<UL><LI>Max Depth = 132<LI>Call Chain = main &rArr; SystemClock_Config &rArr; HAL_RCC_ClockConfig &rArr; HAL_RCC_GetSysClockFreq
 </UL>
 <BR>[Calls]<UL><LI><a href="#[87]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UART_Transmit

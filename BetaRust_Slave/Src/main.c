@@ -40,11 +40,12 @@
 #include "gpio.h"
 
 /* USER CODE BEGIN Includes */
+
 #define NUM 17
 #define RAW 18
 #define T 4
-#undef TEMP
-//#define TEMP
+//#undef TEMP
+#define TEMP
 /* USER CODE END Includes */
 
 /* Private variables ---------------------------------------------------------*/
@@ -53,7 +54,7 @@
 /* Private variables ---------------------------------------------------------*/
 uint8_t raw_data[RAW];
 uint8_t info_buffer[NUM];
-uint8_t send_buffer[T];
+uint8_t send_buffer[T]={0xEE,0xFF,0x0D,0x0A};
 uint8_t _buffer[4];
 /* USER CODE END PV */
 
@@ -64,6 +65,7 @@ void Error_Handler(void);
 /* USER CODE BEGIN PFP */
 /* Private function prototypes -----------------------------------------------*/
 void HAL_SPI_RxCpltCallback(SPI_HandleTypeDef *hspi);
+void HAL_SPI_TxCpltCallback(SPI_HandleTypeDef *hspi);
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin);
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart);
 void Analyze(void);
@@ -104,8 +106,6 @@ int main(void)
   /* USER CODE BEGIN 2 */
 	HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_1);
 	HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_2);
-	send_buffer[2]=0x0D;
-	send_buffer[3]=0x0A;
   /* USER CODE END 2 */
 	
   /* Infinite loop */
@@ -131,7 +131,7 @@ int main(void)
 			send_buffer[1]=raw_data[3];
 			HAL_UART_Transmit(huart,send_buffer,T,10);
 		}
- 
+
 		/* USER CODE END WHILE */
 	}
 
@@ -233,7 +233,7 @@ void Analyze(){
 			CheckVector();
 }
 void HAL_SPI_RxCpltCallback(SPI_HandleTypeDef *hspi){
-	
+	hspi->State = HAL_SPI_STATE_READY;
 	if(_buffer[0]==0xAB&&_buffer[3]==0xCD){//check
 			//set speed
 			if(_buffer[1]>128){
@@ -283,9 +283,13 @@ void HAL_SPI_RxCpltCallback(SPI_HandleTypeDef *hspi){
 		}
 }
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart){
+	huart->State=HAL_UART_STATE_READY;
 	if(raw_data[16]==0x0D&&raw_data[17]==0x0A){
 		Analyze();
 	}
+}
+void HAL_SPI_TxCpltCallBack(SPI_HandleTypeDef *hspi){
+	hspi->State = HAL_SPI_STATE_READY;
 }
 void GetVector(uint8_t* buffer){
 	//get the vector

@@ -38,7 +38,24 @@
 #include "gpio.h"
 
 /* USER CODE BEGIN Includes */
+#undef TRUE
+#undef FALSE
+#define TRUE GPIO_PIN_SET
+#define FALSE GPIO_PIN_RESET
+#undef BOOL
+#define BOOL GPIO_PinState
 
+#define _READ_(X) HAL_GPIO_ReadPin(GPIOB,X)
+#define A_CURE _READ_(A_Cure_IN_Pin)
+#define A_HURT _READ_(A_Hunt_IN_Pin)
+#define L_HURT _READ_(L_Hunt_IN_Pin)
+#define H_HURT _READ_(H_Hunt_IN_Pin)
+#define COLOR  _READ_(AimColor_IN_Pin)
+#define EXIST  _READ_(AimExist_IN_Pin)
+#define OUT    _READ_(Outside_IN_Pin)
+#define HP     _READ_(HP_IN_Pin)
+#define BW     _READ_(BW_IN_Pin)
+#define AIR    _READ_(AR_IN_Pin)
 /* USER CODE END Includes */
 
 /* Private variables ---------------------------------------------------------*/
@@ -46,7 +63,7 @@
 /* USER CODE BEGIN PV */
 /* Private variables ---------------------------------------------------------*/
 uint8_t _speed[4]={0xAB,0,0,0xCD};
-uint8_t _buffer[18];
+uint8_t _buffer[17];
 typedef struct _Point{
 	signed int x,y;
 }Point;
@@ -61,8 +78,9 @@ typedef struct _Status{
 	Point plane;
 	Point tools;
 	Point vec;
+	uint8_t valid;
 }Status;
-uint8_t _f=0;
+
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -74,6 +92,7 @@ void Error_Handler(void);
 void SetSpeed(signed int,signed int);
 Status GetStatus(void);
 void HAL_SPI_RxCpltCallBack(SPI_HandleTypeDef *hspi);
+void HAL_SPI_TxCpltCallBack(SPI_HandleTypeDef *hspi);
 /* USER CODE END PFP */
 
 /* USER CODE BEGIN 0 */
@@ -82,7 +101,6 @@ void HAL_SPI_RxCpltCallBack(SPI_HandleTypeDef *hspi);
 
 int main(void)
 {
-
   /* USER CODE BEGIN 1 */
 
   /* USER CODE END 1 */
@@ -102,7 +120,16 @@ int main(void)
   MX_USART3_UART_Init();
 
   /* USER CODE BEGIN 2 */
-
+A_CURE;
+A_HURT;
+L_HURT;
+H_HURT;
+COLOR;
+EXIST;
+OUT  ;
+HP   ; 
+BW   ;
+AIR   ; 
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -110,10 +137,32 @@ int main(void)
   while (1)
   {
   /* USER CODE END WHILE */
-		SetSpeed(127,127);
-		HAL_Delay(5000);
-		SetSpeed(-127,-127);
-		HAL_Delay(5000);
+		Status now = GetStatus();
+		
+		// test
+		uint8_t data[100];
+		data[0] = now.me.pos.x;	// 11
+		data[1] = now.me.pos.y;	// 22
+		data[2] = now.me.hp;  // 99
+		data[3] = now.opponent.pos.x;	// 33 
+		data[4] = now.opponent.pos.y;	// 44
+    data[5] = now.aim.x;	// 55
+		data[6] = now.aim.y;	// 66
+		data[7] = now.plane.x; // 77
+		data[8] = now.plane.y; // 88
+		data[9] = now.tools.x;	// BB
+		data[10] = now.tools.y;	// CC
+		data[11] = now.valid;//01
+		data[12] = now.vec.x;//00
+		data[13] = now.vec.y;//00
+		data[14] = data[15] = 0;
+		
+		HAL_UART_Transmit(&huart3, data, 14, 10);
+		
+		HAL_Delay(500);
+
+		
+		// HAL_UART_Transmit(&huart3,....);
   /* USER CODE BEGIN 3 */
 
   }
@@ -167,28 +216,36 @@ void SetSpeed(signed int l,signed int r){
 Status GetStatus(void){
 	HAL_GPIO_WritePin(GPIOA,INFO_Pin,GPIO_PIN_SET);
 	HAL_SPI_Receive_DMA(&hspi1,_buffer,17);
-	while(!_f);
-	_f=0;
-	Status res;
-	res.me.pos.x=_buffer[1];
-	res.me.pos.y=_buffer[2];
-	res.opponent.pos.x=_buffer[3];
-	res.opponent.pos.y=_buffer[4];
-	res.aim.x=_buffer[5];
-	res.aim.y=_buffer[6];
-	res.plane.x=_buffer[7];
-	res.plane.y=_buffer[8];
-	res.me.hp=_buffer[9];
-	res.opponent.hp=_buffer[10];
-	res.plane.x=_buffer[11];
-	res.plane.y=_buffer[12];
-	res.vec.x=_buffer[14];
-	res.vec.y=_buffer[15];
-	return res;
+	Status now;
+	if(_buffer[0]==0xAB&&_buffer[13]==0xCD&&_buffer[16]==0xEF){
+		HAL_GPIO_TogglePin(GPIOD,LED_Pin);
+		now.me.pos.x=_buffer[1];
+		now.me.pos.y=_buffer[2];
+		now.opponent.pos.x=_buffer[3];
+		now.opponent.pos.y=_buffer[4];
+		now.aim.x=_buffer[5];
+		now.aim.y=_buffer[6];
+		now.plane.x=_buffer[7];
+		now.plane.y=_buffer[8];
+		now.me.hp=_buffer[9];
+		now.opponent.hp=_buffer[10];
+		now.tools.x=_buffer[11];
+		now.tools.y=_buffer[12];
+		now.vec.x=_buffer[14];
+		now.vec.y=_buffer[15];
+		now.valid=1;
+	}
+	else{
+		now.valid=0;
+	}
+	HAL_GPIO_WritePin(GPIOA,INFO_Pin,GPIO_PIN_RESET);
+	return now;
 }
 void HAL_SPI_RxCpltCallBack(SPI_HandleTypeDef *hspi){
-	if(_buffer[0]==0xAB&&_buffer[13]==0xCD&&_buffer[16]==0xEF)
-		_f=1;
+	hspi->State = HAL_SPI_STATE_READY;
+}
+void HAL_SPI_TxCpltCallBack(SPI_HandleTypeDef *hspi){
+	hspi->State = HAL_SPI_STATE_READY;
 }
 /* USER CODE END 4 */
 
