@@ -24,7 +24,6 @@
 "betarust_master\startup_stm32f103xe.o"
 "betarust_master\system_stm32f1xx.o"
 --library_type=microlib --strict --scatter "BetaRust_Master\BetaRust_Master.sct"
-
 --diag_suppress=L6329 --summary_stderr --info summarysizes --map --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers
 --list "BetaRust_Master.map" -o BetaRust_Master\BetaRust_Master.axf

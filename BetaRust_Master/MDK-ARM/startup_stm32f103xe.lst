@@ -579,17 +579,18 @@ ARM Macro Assembler    Page 9
               00000000 
 Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M3 --apcs=interw
 ork --depend=betarust_master\startup_stm32f103xe.d -obetarust_master\startup_st
-m32f103xe.o -I"C:\Users\Zero Weight\Documents\A-Heaven_Sent-Chance\BetaRust_Mas
-ter\MDK-ARM\RTE" -IC:\Keil_v5\ARM\PACK\ARM\CMSIS\4.2.0\CMSIS\Include -IC:\Keil_
-v5\ARM\PACK\Keil\STM32F1xx_DFP\2.1.0 --predefine="__MICROLIB SETA 1" --predefin
-e="__UVISION_VERSION SETA 514" --predefine="_RTE_ SETA 1" --predefine="STM32F10
+m32f103xe.o -IE:\Projects\Stm32\A-Heaven_Sent-Chance\BetaRust_Master\MDK-ARM\RT
+E -I"D:\Program Files (x86)\MDK\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include" -I"D:\P
+rogram Files (x86)\MDK\ARM\PACK\Keil\STM32F1xx_DFP\2.0.0\Device\Include" --pred
+efine="__MICROLIB SETA 1" --predefine="__UVISION_VERSION SETA 517" --predefine=
 
 
 
 ARM Macro Assembler    Page 10 
 
 
-X_HD SETA 1" --list=startup_stm32f103xe.lst startup_stm32f103xe.s
+"_RTE_ SETA 1" --predefine="STM32F10X_HD SETA 1" --list=startup_stm32f103xe.lst
+ startup_stm32f103xe.s
 
 
 
